@@ -5,7 +5,7 @@ CodeceptJS is a modern end to end testing framework with a special BDD-style syn
 
 Please refer the site - https://codecept.io/
 
-#Scenarios covered are:
+# Scenarios covered are:
 1.  Enter city name, get 5 day weather forecast
 2.  Select day, get 3 hourly forecast
 3.  Select day again, hide 3 hourly forecast
