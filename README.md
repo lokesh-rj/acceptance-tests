@@ -28,6 +28,8 @@ For the current project - I am using Webdriver helper as a backend. There are ot
 * Chunks - CodeceptJS concept for running tests parallely
 * Allure report for reporting purpose
 
+# Structure:
+
 * data
   - test_data.js
 * pages
