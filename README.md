@@ -17,13 +17,16 @@ Please refer the site - https://codecept.io/
 5.  Negative scenario - validation errrors
     
     
-For the current project - I am using Webdriver helpers as backend. There are other helpers like puppetter, appium, nighmarejs, playwright etc.  
+For the current project - I am using Webdriver helper as a backend. There are other helpers like puppetter, appium, nighmarejs, playwright etc.  
 
 # Framework overview: 
 
-Implemented page objects for easy maintenance and covered the tests for all the cities. Framework can be integrated with the clould platform tools like SauceLabs, Crossbrowser tesing, BrowserStack for achieving Cross browser as well as parallel testing. 
-
-Docker for ss
+* Implemented page objects for easy maintenance and covered the tests for all the cities. 
+* Framework can be integrated with the clould platform tools like SauceLabs, Crossbrowser tesing, BrowserStack for achieving Cross browser as well as parallel testing. 
+* Can be integrated with the CI tools like Drone CI, Jenkins
+* RetryFailedStep plugin retries a failed step for 10 times. Using this hard wait can be eliminated.
+* Chunks - CodeceptJS concept for running tests parallely
+* Allure report for reporting purpose
 
 * data
   - test_data.js
