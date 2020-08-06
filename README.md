@@ -17,11 +17,13 @@ Please refer the site - https://codecept.io/
 5.  Negative scenario - validation errrors
     
     
-For the current project - I am using Webdriver helpers as backend. There are other helpers like puppetter, appium, nighwatchjs, playwright etc.  
+For the current project - I am using Webdriver helpers as backend. There are other helpers like puppetter, appium, nighmarejs, playwright etc.  
 
 # Framework overview: 
 
-used page objects for easy maintenance and covered the tests for all the cities.
+Implemented page objects for easy maintenance and covered the tests for all the cities. Framework can be integrated with the clould platform tools like SauceLabs, Crossbrowser tesing, BrowserStack for achieving Cross browser as well as parallel testing. 
+
+Docker for ss
 
 * data
   - test_data.js
