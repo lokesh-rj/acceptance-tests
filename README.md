@@ -73,7 +73,7 @@ Then, open a new gitbash shell and type in below commands to run the tests-
     
 # For reporting purpose - 
 
-I have Allure reporting tool. http://allure.qatools.ru/
+I have used Allure reporting tool. http://allure.qatools.ru/
 
 To serve the report. Please run below command.
 
