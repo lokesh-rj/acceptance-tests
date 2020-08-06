@@ -1,2 +1,73 @@
 # acceptance-tests
-Build acceptance test for Weather app using CodeceptJS
+Build acceptance tests for Weather app using CodeceptJS
+
+CodeceptJS is a modern end to end testing framework with a special BDD-style syntax. The tests are written as a linear scenario of the user's action on a site.
+
+Please refer the site - https://codecept.io/
+
+#Scenarios covered are:
+1.  Enter city name, get 5 day weather forecast
+2.  Select day, get 3 hourly forecast
+3.  Select day again, hide 3 hourly forecast
+4.  Daily forecast should summarise the 3 hour data:
+    - Most dominant (or current) condition
+    - Most dominant (or current) wind speed and direction
+    - Aggregate rainfall
+    - Minimum and maximum temperature
+5.  Negative scenario - validation errrors
+    
+    
+For the current project - I am using Webdriver helpers as backend. There are other helpers like puppetter, appium, nighwatchjs, playwright etc.  
+
+# Framework overview: 
+
+used page objects for easy maintenance and covered the tests for all the cities.
+
+* data
+  - test_data.js
+* pages
+  - forecast_home_page.js
+* tests
+  - forecast_test.js
+  - negative_test.js
+* .gitignore
+* codecept.conf.js
+* package.json
+* package-lock.json
+* steps_file.js
+* steps.d.ts
+
+    
+# Running the tests locally - 
+
+I have used gitbash command line tool to run my tests
+
+First you would need to install the node packages/ depemdencies in the package.json file.
+
+`npm install`
+
+Then, you need to start your selenium-standalone server
+
+`npm run selenium-server`
+
+Then, open a new gitbash shell and type in below commands to run the tests-
+
+ # For single browser - 
+ `npm run single`
+ 
+ # For multiple and parallel browsers - 
+ `npm run parallel`
+ 
+ # For headless single browser - 
+ `npm run headless`
+ 
+ # For headless multiple and parallel browsers - 
+ `npm run headless-multiple`
+    
+# For reporting purpose - 
+
+I have Allure reporting tool. http://allure.qatools.ru/
+
+To serve the report. Please run below command.
+
+`npm run report`
