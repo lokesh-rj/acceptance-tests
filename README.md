@@ -5,18 +5,6 @@ CodeceptJS is a modern end to end testing framework with a special BDD-style syn
 
 Please refer the site - https://codecept.io/
 
-# Scenarios covered are:
-1.  Enter city name, get 5 day weather forecast
-2.  Select day, get 3 hourly forecast
-3.  Select day again, hide 3 hourly forecast
-4.  Daily forecast should summarise the 3 hour data:
-    - Most dominant (or current) condition
-    - Most dominant (or current) wind speed and direction
-    - Aggregate rainfall
-    - Minimum and maximum temperature
-5.  Negative scenario - validation errrors
-    
-    
 For the current project - I am using Webdriver helper as a backend. There are other helpers like puppetter, appium, nighmarejs, playwright etc.  
 
 # Framework overview: 
@@ -43,6 +31,18 @@ For the current project - I am using Webdriver helper as a backend. There are ot
 * package-lock.json
 * steps_file.js
 * steps.d.ts
+
+# Scenarios covered are:
+1.  Enter city name, get 5 day weather forecast
+2.  Select day, get 3 hourly forecast
+3.  Select day again, hide 3 hourly forecast
+4.  Daily forecast should summarise the 3 hour data:
+    - Most dominant (or current) condition
+    - Most dominant (or current) wind speed and direction
+    - Aggregate rainfall
+    - Minimum and maximum temperature
+5.  Negative scenario - validation errrors
+    
 
     
 # Running the tests locally - 
