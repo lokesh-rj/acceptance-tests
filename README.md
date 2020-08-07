@@ -5,7 +5,7 @@ CodeceptJS is a modern end to end testing framework with a special BDD-style syn
 
 Please refer the site - https://codecept.io/
 
-For the current project - I am using Webdriver helper as a backend. There are other helpers like puppetter, appium, nighmarejs, playwright etc.  
+For the current project - I am using Webdriver helper as the backend. There are other helpers like puppetter, appium, nighmarejs, playwright etc.  
 
 # Framework overview: 
 
@@ -49,7 +49,7 @@ For the current project - I am using Webdriver helper as a backend. There are ot
 
 I have used gitbash command line tool to run my tests
 
-First you would need to install the node packages/ depemdencies in the package.json file.
+First you would need to install the node packages/ dependencies in the package.json file.
 
 `npm install`
 
@@ -75,6 +75,6 @@ Then, open a new gitbash shell and type in below commands to run the tests-
 
 I have used Allure reporting tool. http://allure.qatools.ru/
 
-To serve the report. Please run below command.
+To serve the report. Please run the below command.
 
 `npm run report`
