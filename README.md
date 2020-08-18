@@ -64,12 +64,18 @@ Then, open a new gitbash shell and type in below commands to run the tests-
  
  # For multiple and parallel browsers - 
  `npm run parallel`
+
+ # For parallel browsers with workers - 
+ `npm run workers`
  
  # For headless single browser - 
  `npm run headless`
  
  # For headless multiple and parallel browsers - 
  `npm run headless-multiple`
+
+ # For headless multiple and parallel browsers with workers - 
+ `npm run headless-workers`
     
 # For reporting purpose - 
 

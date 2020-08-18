@@ -7,6 +7,8 @@
     "selenium-server": "seleium-standalone start",
     "headless-multiple": "set HEADLESS=true && npx codeceptjs run-multiple parallel --verbose --steps",
     "headless": "set HEADLESS=true && npx codeceptjs run --verbose",
+    "headless-workers": "set HEADLESS=true && npx codeceptjs run-workers 5 --verbose",
+    "workers": "npx codeceptjs run-workers 5 --verbose",
     "parallel": "npx codeceptjs run-multiple parallel --verbose --steps",
     "single": "npx codeceptjs run --verbose --steps",
     "report": "allure serve output"

@@ -25,7 +25,7 @@ exports.config = {
     parallel: {
       // Splits tests into 2 chunks
       chunks: 2,
-      browsers: ["chrome"],
+      browsers: ["chrome","firefox"],
     },
   },
   include: {
