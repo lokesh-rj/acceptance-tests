@@ -31,6 +31,9 @@ exports.config = {
   include: {
     I: "./steps_file.js",
   },
+  URL: {
+    require: "./readJSON.js"
+  },
   bootstrap: null,
   mocha: {},
   name: "weather-app-tests",

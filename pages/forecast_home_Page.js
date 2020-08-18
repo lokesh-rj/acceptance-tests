@@ -1,6 +1,7 @@
 //I is an actor - acts as an abstract user
 const { I } = inject();
 const assert = require("assert");
+const differenceHours = 300;
 
 //page objects of Weather forecast Page
 module.exports = {
@@ -60,7 +61,7 @@ module.exports = {
     let hourTwo = await I.grabHTMLFrom(secondHour);
     I.see(hourTwo);
     let differentialHours = parseInt(hourTwo) - parseInt(hourOne);
-    assert.strictEqual(differentialHours, 300);
+    assert.strictEqual(differentialHours, differenceHours);
   },
 
   //verfies summary icon by comparing the hourly details
@@ -74,6 +75,7 @@ module.exports = {
       "aria-label",
     );
     assert.strictEqual(summaryIcon[0], firstDetailIcon[0]);
+    //assert.strictEqual(summaryIcon[0],data.list[i-1].weather.main);
   },
 
   //re-usable function for verifing max temperatures

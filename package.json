@@ -4,7 +4,7 @@
   "description": "weather-app-acceptance-tests",
   "main": "index.js",
   "scripts": {
-    "selenium-server":"seleium-standalone start",
+    "selenium-server": "seleium-standalone start",
     "headless-multiple": "set HEADLESS=true && npx codeceptjs run-multiple parallel --verbose --steps",
     "headless": "set HEADLESS=true && npx codeceptjs run --verbose",
     "parallel": "npx codeceptjs run-multiple parallel --verbose --steps",
@@ -16,6 +16,7 @@
   "devDependencies": {
     "allure-commandline": "^2.13.0",
     "codeceptjs": "^2.6.8",
+    "moment": "^2.27.0",
     "selenium-standalone": "^6.18.0",
     "webdriver": "^6.3.6"
   }
