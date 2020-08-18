@@ -9,7 +9,7 @@ exports.config = {
   output: "./output",
   helpers: {
     WebDriver: {
-      url: "http://localhost:3001",
+      url: "http://localhost:3000",
       browser: "chrome",
       windowSize: "maximize",
       smartWait: 50000,

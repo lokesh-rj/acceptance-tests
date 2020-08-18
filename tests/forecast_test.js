@@ -4,6 +4,13 @@ const assert = require("assert"); //to access assert library
 
 Feature("weather forecast acceptance tests");
 
+Scenario("Verify default city on app launch", (I) => {
+  I.amOnPage("/");
+  I.seeInField(forecastHomePage.fields.city, "Glasgow");
+})
+  .tag("@Sanity")
+  .tag("@positive");
+
 Data(testData)
   .Scenario("verify forecast data for all the cities", async (I, current) => {
     I.amOnPage("/");
@@ -11,12 +18,11 @@ Data(testData)
     forecastHomePage.enterCityInfo(current.city);
     //false positive acts as an assertion
     I.dontSeeElement(forecastHomePage.errorMssgs.foreCastErr);
-    //grabs number of visible elements for a given element
     let numOfDays = await I.grabNumberOfVisibleElements(
       forecastHomePage.days.totalDays,
     );
     //assertion for validating the no of days displayed
-    assert.equal(numOfDays, "5");
+    assert.strictEqual(numOfDays, 5);
   })
   .tag("@sanity")
   .tag("@positive");
@@ -30,22 +36,27 @@ Data(testData)
       forecastHomePage.enterCityInfo(current.city);
       //false positive acts as an assertion
       I.dontSeeElement(forecastHomePage.errorMssgs.foreCastErr);
-      I.click(forecastHomePage.days.dayOne);
-      let totalHours = await I.grabNumberOfVisibleElements(
-        forecastHomePage.hours.totalHours,
-      );
-      if (parseInt(totalHours) !== 1) {
-        await forecastHomePage.verifyDifferentialHours(
-          forecastHomePage.hours.dayOneHourOne,
-          forecastHomePage.hours.dayOneHourTwo,
-        );
-      } else {
-        I.click(forecastHomePage.days.dayOne);
-        I.click(forecastHomePage.days.dayTwo);
-        await forecastHomePage.verifyDifferentialHours(
-          forecastHomePage.hours.dayTwoHourOne,
-          forecastHomePage.hours.dayTwoHourTwo,
-        );
+      for (let i = 1; i <= 5; i++) {
+        I.click(`span>span[data-test='day-${i}']`);
+        for (let j = 1; j <= 8; j++) {
+          if (i === 1) {
+            while (j < 3) {
+              await forecastHomePage.verifyDifferentialHours(
+                `span[data-test="hour-${i}-${j}"]`,
+                `span[data-test="hour-${i}-${j + 1}"]`,
+              );
+              j++;
+            }
+          } else {
+            while (j < 8) {
+              await forecastHomePage.verifyDifferentialHours(
+                `span[data-test="hour-${i}-${j}"]`,
+                `span[data-test="hour-${i}-${j + 1}"]`,
+              );
+              j++;
+            }
+          }
+        }
       }
     },
   )
@@ -62,13 +73,15 @@ Data(testData)
       forecastHomePage.enterCityInfo(current.city);
       //false positive acts as an assertion
       I.dontSeeElement(forecastHomePage.errorMssgs.foreCastErr);
-      I.click(forecastHomePage.days.dayOne);
-      I.seeElement(forecastHomePage.hours.dayOneHourOne);
-      let hourOne = await I.grabHTMLFrom(forecastHomePage.hours.dayOneHourOne);
-      I.see(hourOne);
-      I.click(forecastHomePage.days.dayOne);
-      //assertion for verifying data is hidden or not
-      I.dontSee(hourOne);
+      for (let i = 1; i <= 5; i++) {
+        I.click(`span>span[data-test='day-${i}']`);
+        I.seeElement(`span[data-test="hour-${i}-1"]`);
+        let hourOne = await I.grabHTMLFrom(`span[data-test="hour-${i}-1"]`);
+        I.see(hourOne);
+        I.click(`span>span[data-test='day-${i}']`);
+        //assertion for verifying data is hidden or not
+        I.dontSee(hourOne);
+      }
     },
   )
   .tag("@sanity")
@@ -82,14 +95,23 @@ Data(testData)
     forecastHomePage.enterCityInfo(current.city);
     //false positive acts as an assertion
     I.dontSeeElement(forecastHomePage.errorMssgs.foreCastErr);
-    I.click(forecastHomePage.days.dayOne);
-    I.seeElement(forecastHomePage.hours.dayOneHourOne);
-    await forecastHomePage.verifySummaryIcon();
-    await forecastHomePage.verifySummaryMaxTemperature(4);
-    await forecastHomePage.verifySummaryMinTemperature(4);
-    await forecastHomePage.verifyAggregateRainFall(4);
-    await forecastHomePage.verifyWindAndDirection();
+    for (let i = 1; i <= 5; i++) {
+      I.click(`span>span[data-test='day-${i}']`);
+      I.seeElement(`span[data-test="hour-${i}-1"]`);
+      await forecastHomePage.verifySummaryIcon(i);
+      if (i === 1) {
+        await forecastHomePage.verifySummaryMaxTemperature(3, i);
+        await forecastHomePage.verifySummaryMinTemperature(3, i);
+        await forecastHomePage.verifyAggregateRainFall(3, i);
+      } else {
+        await forecastHomePage.verifySummaryMaxTemperature(8, i);
+        await forecastHomePage.verifySummaryMinTemperature(8, i);
+        await forecastHomePage.verifyAggregateRainFall(8, i);
+      }
+      await forecastHomePage.verifyWindAndDirection(i);
+    }
   })
   .tag("@sanity")
   .tag("@positive")
-  .tag("@direction");
+  .tag("@direction")
+  .tag("@daily");
