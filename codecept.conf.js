@@ -9,7 +9,7 @@ exports.config = {
   output: "./output",
   helpers: {
     WebDriver: {
-      url: "http://localhost:3001",
+      url: "http://localhost:3000",
       browser: "chrome",
       windowSize: "maximize",
       smartWait: 50000,
@@ -25,11 +25,14 @@ exports.config = {
     parallel: {
       // Splits tests into 2 chunks
       chunks: 2,
-      browsers: ["chrome"],
+      browsers: ["chrome","firefox"],
     },
   },
   include: {
     I: "./steps_file.js",
+  },
+  URL: {
+    require: "./readJSON.js"
   },
   bootstrap: null,
   mocha: {},

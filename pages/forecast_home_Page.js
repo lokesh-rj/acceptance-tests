@@ -1,6 +1,7 @@
 //I is an actor - acts as an abstract user
 const { I } = inject();
 const assert = require("assert");
+const differenceHours = 300;
 
 //page objects of Weather forecast Page
 module.exports = {
@@ -60,114 +61,102 @@ module.exports = {
     let hourTwo = await I.grabHTMLFrom(secondHour);
     I.see(hourTwo);
     let differentialHours = parseInt(hourTwo) - parseInt(hourOne);
-    assert.strictEqual(differentialHours, 300);
+    assert.strictEqual(differentialHours, differenceHours);
   },
 
   //verfies summary icon by comparing the hourly details
-  async verifySummaryIcon() {
-    let cloudy = await I.grabNumberOfVisibleElements(
-      this.icons.detailsCloudsIcon,
+  async verifySummaryIcon(i) {
+    let firstDetailIcon = await I.grabAttributeFrom(
+      `div.detail>span>svg[data-test="description-${i}-1"]`,
+      "aria-label",
     );
-    let rainy = await I.grabNumberOfVisibleElements(this.icons.detailsRainIcon);
-    let clear = await I.grabNumberOfVisibleElements(
-      this.icons.detailsClearIcon,
+    let summaryIcon = await I.grabAttributeFrom(
+      `(//div[@class='summary']/span[@class='cell']/*[name()='svg'])[${i}]`,
+      "aria-label",
     );
-    let maxValue = Math.max(cloudy, clear, rainy);
-    let summaryIcon =
-      maxValue == cloudy
-        ? this.icons.summaryCloudsIcon
-        : maxValue == rainy
-        ? this.icons.summaryRainIcon
-        : this.icons.summaryClearIcon;
-
-    I.seeElement(summaryIcon);
+    assert.strictEqual(summaryIcon[0], firstDetailIcon[0]);
+    //assert.strictEqual(summaryIcon[0],data.list[i-1].weather.main);
   },
 
   //re-usable function for verifing max temperatures
-  async verifySummaryMaxTemperature(length) {
+  async verifySummaryMaxTemperature(length, i) {
     var temp = "";
     var tempArray = [];
-    //loops over first day forecast temperature data
-    for (let i = 1; i < length; i++) {
-      temp = await I.executeScript(
-        `var data = document.getElementsByClassName('max');return data[${i}].innerText`,
+    //loops over day forecast temperature data
+    for (let j = 1; j <= length; j++) {
+      temp = await I.grabTextFrom(
+        `div.detail>span>span.max[data-test="maximum-${i}-${j}"]`,
       );
-
       temp = temp.slice(0, temp.length - 1);
       tempArray.push(parseInt(temp));
     }
     maxTemp = Math.max(...tempArray);
-    summaryTemp = await I.executeScript(
-      "var data = document.getElementsByClassName('max');return data[0].innerText",
+    summaryTemp = await I.grabTextFrom(
+      `div.summary>span>span.max[data-test="maximum-${i}"]`,
     );
     summaryTemp = summaryTemp.slice(0, summaryTemp.length - 1);
     assert.strictEqual(maxTemp, parseInt(summaryTemp));
   },
   //re-usable function for verifing min temperatures
-  async verifySummaryMinTemperature(length) {
+  async verifySummaryMinTemperature(length, i) {
     var temp = "";
     var tempArray = [];
     //loops over day forecast temperature data
-    for (let i = 1; i < length; i++) {
-      temp = await I.executeScript(
-        `var data = document.getElementsByClassName('min');return data[${i}].innerText`,
+    for (let j = 1; j <= length; j++) {
+      temp = await I.grabTextFrom(
+        `div.detail>span>span.min[data-test="minimum-${i}-${j}"]`,
       );
       tempLength = temp.length;
       temp = temp.slice(0, tempLength - 1);
       tempArray.push(parseInt(temp));
     }
     minTemp = Math.min(...tempArray);
-    summaryTemp = await I.executeScript(
-      "var data = document.getElementsByClassName('min');return data[0].innerText",
+    summaryTemp = await I.grabTextFrom(
+      `div.summary>span>span.min[data-test="minimum-${i}"]`,
     );
     summaryTemp = summaryTemp.slice(0, summaryTemp.length - 1);
     assert.strictEqual(minTemp, parseInt(summaryTemp));
   },
   //re-usable function for verifing aggregate rainfall
-  async verifyAggregateRainFall(length) {
+  async verifyAggregateRainFall(length, i) {
     var rainFall = "";
     var aggregateRainFall = 0;
     var summaryRainFall = "";
     //loops over day forecast rainfall data
-    for (let i = 1; i < length; i++) {
-      rainFall = await I.executeScript(
-        `var data = document.getElementsByClassName('rainfall');return data[${i}].innerText`,
+    for (let j = 1; j <= length; j++) {
+      rainFall = await I.grabTextFrom(
+        `div.detail>span>span.rainfall[data-test="rainfall-${i}-${j}"]`,
       );
       rainFall = rainFall.slice(0, rainFall.length - 2);
       aggregateRainFall = aggregateRainFall + parseInt(rainFall);
     }
-    summaryRainFall = await I.executeScript(
-      `var data = document.getElementsByClassName('rainfall');return data[0].innerText`,
+    summaryRainFall = await I.grabTextFrom(
+      `div.summary>span>span.rainfall[data-test="rainfall-${i}"]`,
     );
     summaryRainFall = summaryRainFall.slice(0, summaryRainFall.length - 2);
     assert.strictEqual(aggregateRainFall, parseInt(summaryRainFall));
   },
 
   //re-usable function to verify wind speed and direction
-  async verifyWindAndDirection() {
-    currentSpeed = await I.executeScript(
-      `var data = document.getElementsByClassName('speed');return data[1].innerText`,
+  async verifyWindAndDirection(i) {
+    currentSpeed = await I.grabTextFrom(
+      `div.detail>span>span.speed[data-test="speed-${i}-1"]`,
     );
     currentSpeed = currentSpeed.slice(0, currentSpeed.length - 3);
-    summarySpeed = await I.executeScript(
-      `var data = document.getElementsByClassName('speed');return data[0].innerText`,
+    summarySpeed = await I.grabTextFrom(
+      `div.summary>span>span.speed[data-test="speed-${i}"]`,
     );
     summarySpeed = summarySpeed.slice(0, summarySpeed.length - 3);
-    assert.strictEqual(parseInt(currentSpeed), parseInt(summarySpeed));
-    let currentDirection = await I.executeScript(
-      `var data = document.getElementsByClassName('direction');return data[1].children[0].style.transform`,
+    assert.deepStrictEqual(parseInt(currentSpeed), parseInt(summarySpeed));
+    let currentDirection = await I.grabAttributeFrom(
+      `div.detail>span>span.direction[data-test="direction-${i}-1"]>svg`,
+      "style",
     );
-    currentDirection = currentDirection.split("(");
-    currentDirection = currentDirection[1].split("d");
-    currentDirection = currentDirection[0].trim();
-    console.log("current: " +currentDirection);
-    let summaryDirection = await I.executeScript(
-      `var data = document.getElementsByClassName('direction');return data[0].children[0].style.transform`,
+
+    let summaryDirection = await I.grabAttributeFrom(
+      `div.summary>span>span.direction[data-test="direction-${i}"]>svg`,
+      "style",
     );
-    summaryDirection = summaryDirection.split("(");
-    summaryDirection = summaryDirection[1].split("d");
-    summaryDirection = summaryDirection[0].trim();
-    console.log("summary: " +summaryDirection);
-    assert.strictEqual(currentDirection,summaryDirection);
+    assert.deepStrictEqual(currentDirection, summaryDirection);
   },
 };
